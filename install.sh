@@ -2,7 +2,7 @@ su
 ip route del default gw 172.31.100.1
 ip route del default
 ip route
-yum update
+yum -y update
 yum -y install mlocate net-tools firefox vim
 yum -y groupinstall Development Tools
 yum -y groupinstall "X Window System"
@@ -19,3 +19,4 @@ firewall-cmd --add-port=3128/udp --permanent
 #make sure that the following is done to cache and logs
 #mount options noatime data=writeback noatime
 #/etc/sysconfig/selinux disable
+echo "* - nofile 65535">>/etc/security/limits.conf 
