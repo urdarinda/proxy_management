@@ -1,6 +1,7 @@
 echo -e "Installing System\n\n\n\n"
 yum -y update
 yum -y install mlocate net-tools firefox vim gedit nmap nano wget httpd
+yum -y install bind-utils
 yum -y groupinstall Development Tools
 yum -y groupinstall "X Window System"
 yum -y install gnome-classic-session gnome-terminal control-center liberation-mono-fonts
@@ -29,3 +30,9 @@ echo "* - nofile 65535">>/etc/security/limits.conf
 echo -e "Disabling SELINUX\n\n\n\n"
 sed  -i 's/enforcing/disabled/' /etc/sysconfig/selinux
 #TODO GRUB DEFAULT
+
+echo -e "Installing latest kernel\n\n\n\n"
+rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
+yum --enablerepo=elrepo-kernel install kernel-ml
+
