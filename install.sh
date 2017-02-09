@@ -18,9 +18,11 @@ mkdir /cache/squid/swap
 chown squid:squid /cache/squid/swap
 systemctl enable squid
 
-echo -e "Allowing firewall\n\n\n\n"
+echo -e "Setting up ports\n\n\n\n"
 firewall-cmd --add-port=3128/tcp --permanent
 firewall-cmd --add-port=3128/udp --permanent
+firewall-cmd --add-port=3130/tcp --permanent
+firewall-cmd --add-port=3130/udp --permanent
 #make sure that the following is done to cache and logs
 #mount options noatime data=writeback
 
