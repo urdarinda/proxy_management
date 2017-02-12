@@ -3,3 +3,6 @@ netstat -a -n | grep 3128 | cut -d ':' -f 2| cut -d ' ' -f 7|sort -uV
 
 #list number of connected users
 netstat -a -n | grep 3128 | cut -d ':' -f 2| cut -d ' ' -f 7|sort -uV|wc -l
+
+#set date
+date -s "$(wget -qSO- --max-redirect=0 google.com 2>&1 | grep Date: | cut -d' ' -f5-8)Z"
