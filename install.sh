@@ -1,9 +1,11 @@
 echo -e "Installing System\n\n"
 yum -y update
-yum -y install mlocate net-tools firefox vim gedit nmap nano wget httpd deltarpm bind-utils gd gd-devel perl-GD squid
 yum -y groupinstall "Development Tools"
 yum -y groupinstall "X Window System"
-yum -y install gnome-classic-session gnome-terminal control-center liberation-mono-fonts
+yum -y install mlocate net-tools firefox vim gedit nmap nano wget httpd deltarpm bind-utils gd gd-devel perl-GD squid \
+       gnome-classic-session gnome-terminal control-center liberation-mono-fonts \
+       lohit-devanagari-fonts lohit-bengali-fonts epel-release
+
 unlink /etc/systemd/system/default.target
 ln -sf /lib/systemd/system/graphical.target /etc/systemd/system/default.target
 
@@ -36,7 +38,7 @@ echo "* - nofile 65535">>/etc/security/limits.conf
 #TODO GRUB DEFAULT ABOVE IS BUGGED
 
 echo -e "Installing latest kernel\n\n"
-rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
-rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
+#rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+#rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
 yum --enablerepo=elrepo-kernel -y install kernel-ml
 
