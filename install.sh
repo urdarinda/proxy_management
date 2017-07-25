@@ -1,10 +1,9 @@
 echo -e "Installing System\n\n"
 yum -y update
 yum -y groupinstall "Development Tools"
-yum -y groupinstall "X Window System"
+yum -y groupinstall "X Window System" "Fonts" 
 yum -y install mlocate net-tools firefox vim gedit nmap nano wget httpd deltarpm bind-utils gd gd-devel perl-GD squid \
-       gnome-classic-session gnome-terminal control-center liberation-mono-fonts \
-       lohit-devanagari-fonts lohit-bengali-fonts epel-release
+       gnome-classic-session gnome-terminal control-center epel-release
 
 unlink /etc/systemd/system/default.target
 ln -sf /lib/systemd/system/graphical.target /etc/systemd/system/default.target
