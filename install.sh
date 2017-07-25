@@ -1,7 +1,6 @@
 echo -e "Installing System\n\n"
 yum -y update
-yum -y groupinstall "Development Tools"
-yum -y groupinstall "X Window System" "Fonts" 
+yum -y groupinstall "Development Tools" "X Window System" "Fonts" 
 yum -y install mlocate net-tools firefox vim gedit nmap nano wget httpd deltarpm bind-utils gd gd-devel perl-GD squid \
        gnome-classic-session gnome-terminal control-center epel-release
 
