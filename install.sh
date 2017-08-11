@@ -1,8 +1,9 @@
 echo -e "Installing System\n\n"
 yum -y update
 yum -y groupinstall "Development Tools" "X Window System" "Fonts" 
-yum -y install mlocate net-tools firefox vim gedit nmap nano wget httpd deltarpm bind-utils gd gd-devel perl-GD squid \
-       gnome-classic-session gnome-terminal control-center epel-release telnet
+yum -y install mlocate net-tools traceroute firefox vim gedit nmap nano wget httpd deltarpm bind-utils gd gd-devel perl-GD squid \
+       gnome-classic-session gnome-terminal control-center telnet
+       #epel-release
 
 unlink /etc/systemd/system/default.target
 ln -sf /lib/systemd/system/graphical.target /etc/systemd/system/default.target
