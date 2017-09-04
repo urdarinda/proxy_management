@@ -1,2 +1,5 @@
+# check if squid is on every minute and turn it on
 */1 * * * * /etc/squid/onscript.sh
+
+# rotate squid logs every day
 0 0 * * * /usr/sbin/squid -k rotate
