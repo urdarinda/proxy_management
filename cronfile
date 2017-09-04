@@ -1,0 +1,2 @@
+*/1 * * * * /etc/squid/onscript.sh
+0 0 * * * /usr/sbin/squid -k rotate
