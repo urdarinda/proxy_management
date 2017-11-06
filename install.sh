@@ -24,6 +24,8 @@ then
               chown squid:squid /cache/squid/swap
               cp proxy_list passwd squid.conf /etc/squid/
               systemctl enable squid
+              update.sh $1
+              squid -z
 
 
               echo -e "Setting up ports\n\n"
