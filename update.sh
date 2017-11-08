@@ -10,6 +10,7 @@ then
 			echo $tmp
 			sed -i s/XXXXXX/$tmp/g $squidfile
 			sed -i s/XXX\.XXX/$1/g $squidfile
+			systemctl restart squid
 
 		else
               echo "IP not valid"
