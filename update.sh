@@ -7,6 +7,7 @@ then
 			mv $squiddir/squid.conf $squiddir/squid.conf.bak
 			wget $giturl/squid.conf -O $squiddir/squid.conf
 			wget $giturl/proxy_list -O $squiddir/proxy_list
+			wget $giturl/porndomain -O $squiddir/porndomain
 			echo "$1"
 			tmp=`echo "$1" | cut -d. -f1``echo "$1" | cut -d. -f2`
 			echo $tmp
