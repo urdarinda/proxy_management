@@ -1,8 +1,3 @@
-# -a        : show all ports (listening, non-listening)
-# -n        : show ip address instead of domain name
-# grep 3128 : filter connections that connect to squid
-
-
 #list ips of active users
 netstat -an | grep 3128 | awk -F ":" '{print $2|"sort -uV"}'| awk '{print $2}'
 
