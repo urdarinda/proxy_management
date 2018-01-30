@@ -10,6 +10,7 @@ then
               yum install -y epel-release centos-release-scl
               yum install -y devtoolset-7-gcc* cmake3 hwloc-devel libmicrohttpd-devel \
                      openssl-devel tmux libuv libuv-devel htop mlocate net-tools traceroute \
+                     libcurl-devel libstdc++-static \
                      firefox vim gedit nmap nano wget httpd bind-utils gd gd-devel perl-GD squid \
                      gnome-classic-session gnome-terminal control-center telnet unzip
 
@@ -28,7 +29,7 @@ then
               chown squid:squid /cache/squid/swap
               cp proxy_list passwd update.sh squid.conf /etc/squid/
               systemctl enable squid
-              update.sh $1
+              ./update.sh $1
               squid -z
 
 
