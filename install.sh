@@ -55,6 +55,29 @@ then
               #rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
               #rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
               #yum --enablerepo=elrepo-kernel -y install kernel-ml
+              
+              echo "Auto-Configure mount options? (Y/n)"
+              read -r option
+              if ! [[ $option =~ N|n ]]; then     
+                     while [[ true ]]; do
+                            echo -n "Enter absolute cache directory (eg: /cache) "
+                            read -r cache_dir
+                            if [[ -z $cache_dir  ]]; then
+                                   cache_dir="/cache"
+                                   echo "$(tput bold)WARNING$(tput sgr0): Using /cache as cache directory"
+                                   echo -n "Continue (Y/n)"
+                                   read -r confirm
+                                   if ! [[ $confirm =~ N|n ]] ; then
+                                          break;
+                                   fi
+                            fi
+                     done
+                     # Partition on which cache is mounted, sed pipe replaces "/" with "\/"
+                     cache_prt=$(mount | grep $cache_dir | awk '{print $1}' | sed 's:/:\\/:g')
+                     # search for line containing cache_prt in  /etc/fstab, replace defaults with default,noatime
+                     options="defaults,noatime"
+                     sed -i '/'"$cache_prt"'/ s/defaults/'"$options"'/' /etc/fstab
+              fi
        else
               echo "IP not valid"
        fi
