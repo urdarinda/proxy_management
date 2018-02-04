@@ -60,7 +60,7 @@ then
               echo "Auto-Configuring mount options..."
 
               # Stores name of partitions(space seperated) on which caches are present
-              cache_prt=$(mount | grep -E "/cache[[:digit:]]+" | awk '{print $1}')
+              cache_prt=$(mount | grep -E '/\<cache\> | /cache[[:digit:]]+' | awk '{print $1}')
               echo "Cache partitions are :"
               echo $(tput bold)$cache_prt $(tput sgr0)
               
