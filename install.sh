@@ -60,23 +60,44 @@ then
               read -r option
               if ! [[ $option =~ N|n ]]; then     
                      while [[ true ]]; do
-                            echo -n "Enter absolute cache directory (eg: /cache) "
+                     
+                            echo -n "Names of abs. cache dirs (eg: /cache1 /cache2)"
                             read -r cache_dir
+              
+                            # if $cache_dir empty
                             if [[ -z $cache_dir  ]]; then
+                                   # Following will select all the directories having "/cache" in them
                                    cache_dir="/cache"
-                                   echo "$(tput bold)WARNING$(tput sgr0): Using /cache as cache directory"
-                                   echo -n "Continue (Y/n)"
-                                   read -r confirm
-                                   if ! [[ $confirm =~ N|n ]] ; then
-                                          break;
-                                   fi
+                                   echo "$(tput bold)WARNING$(tput sgr0): Using /cache* as cache directory"
+                            fi
+              
+              
+                            # Stores name of partitions(space seperated) on which caches are present
+                            cache_prt=''
+                            for j in $cache_dir; do   
+                                   # Partition on which cache is mounted, sed pipe replaces "/" with "\/"
+                                   cache_prt=$cache_prt" "$(mount | grep $j | awk '{print $1}')
+                            done
+              
+              
+                            echo "Cache dir are : $(tput bold)$cache_dir$(tput sgr0)"
+                            echo "Respective partitions are :"
+                            echo $(tput bold) $cache_prt $(tput sgr0)
+                            
+              
+                            echo -n "Continue (Y/n)"
+                            read -r confirm
+                            if ! [[ $confirm =~ N|n ]] ; then
+                                   break;
                             fi
                      done
-                     # Partition on which cache is mounted, sed pipe replaces "/" with "\/"
-                     cache_prt=$(mount | grep $cache_dir | awk '{print $1}' | sed 's:/:\\/:g')
-                     # search for line containing cache_prt in  /etc/fstab, replace defaults with default,noatime
-                     options="defaults,noatime"
-                     sed -i '/'"$cache_prt"'/ s/defaults/'"$options"'/' /etc/fstab
+              
+                     # escaping the "/" with "\/"
+                     cache_prt=$(echo $cache_prt | sed 's:/:\\/:g')
+                     options="defaults,HELLO"
+                     for i in $cache_prt; do
+                            sed -i '/'"$i"'/ s/defaults/'"$options"'/' /etc/fstab
+                     done
               fi
        else
               echo "IP not valid"
