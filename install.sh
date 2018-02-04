@@ -56,49 +56,20 @@ then
               #rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
               #yum --enablerepo=elrepo-kernel -y install kernel-ml
               
-              echo "Auto-Configure mount options? (Y/n)"
-              read -r option
-              if ! [[ $option =~ N|n ]]; then     
-                     while [[ true ]]; do
-                     
-                            echo -n "Names of abs. cache dirs (eg: /cache1 /cache2)"
-                            read -r cache_dir
+              # AUTO-CONFIGURE MOUNT OPTIONS
+              echo "Auto-Configuring mount options..."
+
+              # Stores name of partitions(space seperated) on which caches are present
+              cache_prt=$(mount | grep -E "/cache[[:digit:]]+" | awk '{print $1}')
+              echo "Cache partitions are :"
+              echo $(tput bold)$cache_prt $(tput sgr0)
               
-                            # if $cache_dir empty
-                            if [[ -z $cache_dir  ]]; then
-                                   # Following will select all the directories having "/cache" in them
-                                   cache_dir="/cache"
-                                   echo "$(tput bold)WARNING$(tput sgr0): Using /cache* as cache directory"
-                            fi
-              
-              
-                            # Stores name of partitions(space seperated) on which caches are present
-                            cache_prt=''
-                            for j in $cache_dir; do   
-                                   # Partition on which cache is mounted, sed pipe replaces "/" with "\/"
-                                   cache_prt=$cache_prt" "$(mount | grep $j | awk '{print $1}')
-                            done
-              
-              
-                            echo "Cache dir are : $(tput bold)$cache_dir$(tput sgr0)"
-                            echo "Respective partitions are :"
-                            echo $(tput bold) $cache_prt $(tput sgr0)
-                            
-              
-                            echo -n "Continue (Y/n)"
-                            read -r confirm
-                            if ! [[ $confirm =~ N|n ]] ; then
-                                   break;
-                            fi
-                     done
-              
-                     # escaping the "/" with "\/"
-                     cache_prt=$(echo $cache_prt | sed 's:/:\\/:g')
-                     options="defaults,HELLO"
-                     for i in $cache_prt; do
-                            sed -i '/'"$i"'/ s/defaults/'"$options"'/' /etc/fstab
-                     done
-              fi
+              # escaping the "/" with "\/"
+              cache_prt=$(echo $cache_prt | sed 's:/:\\/:g')
+              options="defaults,noatime"
+              for i in $cache_prt; do
+                     sed -i '/'"$i"'/ s/defaults/'"$options"'/' /etc/fstab
+              done
        else
               echo "IP not valid"
        fi
