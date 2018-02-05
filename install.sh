@@ -56,20 +56,26 @@ then
               #rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
               #yum --enablerepo=elrepo-kernel -y install kernel-ml
               
+              
               # AUTO-CONFIGURE MOUNT OPTIONS
               echo "Auto-Configuring mount options..."
-
-              # Stores name of partitions(space seperated) on which caches are present
-              cache_prt=$(mount | grep -E '/\<cache\> | /cache[[:digit:]]+' | awk '{print $1}')
-              echo "Cache partitions are :"
-              echo $(tput bold)$cache_prt $(tput sgr0)
+              # Stores name of partitions(space seperated) on which caches,logs,data are present
+              cache_prt=$(cat /etc/fstab | grep -E '[[:blank:]]/cache[[:blank:]]|/cache[[:digit:]]+' | awk '{print $2}')
+              log_prt=$(cat /etc/fstab   | grep -E '[[:blank:]]/log[[:blank:]]|/log[[:digit:]]+'     | awk '{print $2}')
+              data_prt=$(cat /etc/fstab  | grep -E '[[:blank:]]/data[[:blank:]]|/data[[:digit:]]+'   | awk '{print $2}')
+              
+              config_dirs=$(echo $cache_prt $data_prt $log_prt)
+              echo -e "Partitions selected are :$(tput bold)\n\n$config_dirs\n$(tput sgr0)"
               
               # escaping the "/" with "\/"
-              cache_prt=$(echo $cache_prt | sed 's:/:\\/:g')
+              config_dirs=$(echo $config_dirs | sed 's:/:\\/:g')
               options="defaults,noatime"
-              for i in $cache_prt; do
-                     sed -i '/'"$i"'/ s/defaults/'"$options"'/' /etc/fstab
+              
+              for i in $config_dirs; do
+                     sed -i '/'"[[:blank:]]$i[[:blank:]]"'/ s/defaults/'"$options"'/' /etc/fstab
               done
+              echo "Mount options succesfully configured with \"$options\"..."
+
        else
               echo "IP not valid"
        fi
