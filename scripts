@@ -4,5 +4,8 @@ netstat -an | grep 3128 | awk -F ":" '{print $2|"sort -uV"}'| awk '{print $2}'
 #list number of connected users
 netstat -an | grep 3128 | awk -F ":" '{print $2|"sort -uV"}'| wc -l
 
+# ping default gateway
+ping -c10 $(ip route show default | awk '/default/ {print $3}')
+
 #set date
 date -s "$(wget -qSO- --max-redirect=0 google.com 2>&1 | grep Date: | cut -d' ' -f5-8)Z"
