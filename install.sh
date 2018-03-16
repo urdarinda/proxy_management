@@ -34,10 +34,8 @@ then
 
 
               echo -e "Setting up ports\n\n"
-              firewall-cmd --add-port=3128/tcp --permanent
-              firewall-cmd --add-port=3128/udp --permanent
-              firewall-cmd --add-port=3130/tcp --permanent
-              firewall-cmd --add-port=3130/udp --permanent
+              firewall-cmd --add-service=squid --permanent
+
               #make sure that the following is done to cache and logs
               #mount options noatime data=writeback
 
